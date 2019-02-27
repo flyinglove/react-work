@@ -8,10 +8,28 @@ class SearchPage extends React.Component {
     }
     search(e) {
         let val = e.target.value;
+        let booksList = []
+        this.props.booksList.forEach((item, index) => {
+            console.log(item.books)
+            booksList = booksList.concat(item.books)
+        })
+        console.log(booksList, this.props.booksList)
         BooksAPI.search(val).then(res => {
             console.log(res, this)
+            let temp = res && res.length ? res : []
+            console.log('temp', temp.length, booksList.length)
+            booksList.forEach((item, index) => {
+                let idx = temp.findIndex((book) => {
+                    return book.id === item.id
+                })
+                console.log(idx, 'idx')
+                if (idx >= 0) {
+                    temp[idx].shelf = item.shelf
+                }
+            })
+            console.log('search', temp)
             this.setState({
-                booksList: res && res.length ? res : []
+                booksList: temp
             })
         })
     }
@@ -38,7 +56,7 @@ class SearchPage extends React.Component {
                 <div className="search-books-results">
                     <ol className="books-grid">
                         {this.state.booksList && this.state.booksList.map((item) => (
-                            <ShelfItem getAll={this.props.getAll} key={item.id} book={item}/>
+                            <ShelfItem updateShelf={this.props.updateShelf} key={item.id} book={item}/>
                         ))}
                     </ol>
                 </div>
