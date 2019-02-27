@@ -4,12 +4,15 @@ import * as BooksApi from './BooksAPI'
 class ShelfItem extends React.Component {
     updateShelf(e) {
         BooksApi.update(this.props.book, e.target.value)
+        setTimeout(() => {
+            this.props.getAll()
+        }, 0)
     }
     render() {
         return (
             <div className="book">
                 <div className="book-top">
-                    <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${this.props.book.imageLinks.thumbnail}`}}></div>
+                    <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${this.props.book.imageLinks&&this.props.book.imageLinks.thumbnail}`}}></div>
                     <div className="book-shelf-changer" onChange={this.updateShelf.bind(this)}>
                         <select defaultValue={this.props.book.shelf}>
                             <option value="move" disabled>Move to...</option>

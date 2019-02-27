@@ -15,7 +15,7 @@ class BooksApp extends React.Component {
      */
     booksList: []
   }
-  getAll() {
+  getAll = () => {
     BooksAPI.getAll().then((res) => {
       let ret = []
       res.forEach((item) => {
@@ -44,13 +44,13 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
           <Route path="/search" render={() => (
-              <SearchPage/>
+              <SearchPage getAll={this.getAll}/>
           )} />
           <Route path="/" exact render={() => (
               <div className="list-books">
                   {
                     this.state.booksList.map((item) => (
-                        <Shelf key={item.title} shelfName={item.title} bookList={item.books}/>
+                        <Shelf getAll={this.getAll} key={item.title} shelfName={item.title} bookList={item.books}/>
                     ))
                   }
                   {/*<div className="list-books-title">*/}

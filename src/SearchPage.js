@@ -11,7 +11,7 @@ class SearchPage extends React.Component {
         BooksAPI.search(val).then(res => {
             console.log(res, this)
             this.setState({
-                booksList: res
+                booksList: res && res.length ? res : []
             })
         })
     }
@@ -38,7 +38,7 @@ class SearchPage extends React.Component {
                 <div className="search-books-results">
                     <ol className="books-grid">
                         {this.state.booksList && this.state.booksList.map((item) => (
-                            <ShelfItem key={item.id} book={item}/>
+                            <ShelfItem getAll={this.props.getAll} key={item.id} book={item}/>
                         ))}
                     </ol>
                 </div>
